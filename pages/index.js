@@ -14,6 +14,16 @@ export default function Home() {
             </h1>
         </main>
 
+        {/* Hojas de estilo por componente usando JSX */}
+        <style jsx>{`
+            .title {
+                background-color: orange;
+                color: white;
+                margin: 0;
+                padding: .5rem 1rem;
+                text-align: center
+            }
+        `}</style>
     </div>
   )
 }

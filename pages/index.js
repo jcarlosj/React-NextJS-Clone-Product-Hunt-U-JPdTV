@@ -1,5 +1,5 @@
-import Head from 'next/head';
-import styled from '@emotion/styled';
+import styled from '@emotion/styled';                       // Dependency
+import MainLayout from '../components/layouts/MainLayout';  // Component
 
 /** Define Style Components */
 const Heading = styled .h1 `
@@ -13,17 +13,11 @@ const Heading = styled .h1 `
 export default function Home() {
   return (
     <div className="container">
-        <Head>
-            <title>Inicio</title>
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
-
-        <main>
+        <MainLayout>
             <Heading>
                 Inicio
             </Heading>
-        </main>
-
+        </MainLayout>
     </div>
   )
 }

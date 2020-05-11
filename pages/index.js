@@ -1,4 +1,14 @@
-import Head from 'next/head'
+import Head from 'next/head';
+import styled from '@emotion/styled';
+
+/** Define Style Components */
+const Heading = styled .h1 `
+    background-color: green;
+    color: white;
+    margin: 0;
+    padding: .5rem 1rem;
+    text-align: center;
+`;
 
 export default function Home() {
   return (
@@ -9,21 +19,11 @@ export default function Home() {
         </Head>
 
         <main>
-            <h1 className="title">
+            <Heading>
                 Inicio
-            </h1>
+            </Heading>
         </main>
 
-        {/* Hojas de estilo por componente usando JSX */}
-        <style jsx>{`
-            .title {
-                background-color: orange;
-                color: white;
-                margin: 0;
-                padding: .5rem 1rem;
-                text-align: center
-            }
-        `}</style>
     </div>
   )
 }

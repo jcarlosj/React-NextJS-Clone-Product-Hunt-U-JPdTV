@@ -1,7 +1,9 @@
 import React from 'react';
+import Link from 'next/link';
 
 /** Components */
 import Search from '../ui/Search';
+import Navigation from './Navigation';
 
 /** Define Component */
 const Header = () => {
@@ -11,10 +13,13 @@ const Header = () => {
                 <div>
                     <p>PH</p>
                     <Search />
-                    {/* Navegacion */}
+                    <Navigation />
                 </div>
                 <div>
-                    {/* Menu de administracion */}
+                    <p>Hola: Eva Sofía</p>
+                    <button type="button">Cerrar sesión</button>
+                    <Link href="/">Login</Link>
+                    <Link href="/">Crear cuenta</Link>
                 </div>
             </div>
         </header>

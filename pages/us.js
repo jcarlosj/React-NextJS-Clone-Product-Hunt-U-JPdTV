@@ -12,15 +12,13 @@ const Heading = styled .h1 `
 `;
 
 const Us = () => {
-  return (
-    <div className="container">
+    return (
         <MainLayout>
             <Heading>
                 Nosotros
             </Heading>
         </MainLayout>
-    </div>
-  )
+    )
 }
 
 export default Us;

@@ -11,13 +11,11 @@ const Heading = styled .h1 `
 `;
 
 export default function Home() {
-  return (
-    <div className="container">
+    return (
         <MainLayout>
             <Heading>
                 Inicio
             </Heading>
         </MainLayout>
-    </div>
-  )
+    )
 }

@@ -28,6 +28,7 @@ const
 /** Components */
 import Search from '../ui/Search';
 import Navigation from './Navigation';
+import Button from '../ui/Button';
 
 /** Define Component */
 const Header = () => {
@@ -47,11 +48,28 @@ const Header = () => {
                     <Search />
                     <Navigation />
                 </div>
-                <div>
+                <div
+                    css={ css `
+                        display: flex;
+                        align-items: center;
+                    `}
+                >
                     <p>Hola: Eva Sofía</p>
-                    <button type="button">Cerrar sesión</button>
-                    <Link href="/"><a>Login</a></Link>
-                    <Link href="/"><a>Crear cuenta</a></Link>
+                    <Button 
+                        bgColor="true"
+                    >Cerrar sesión</Button>
+                    <Link href="/">
+                        <a>
+                            <Button 
+                                bgColor="true"
+                            >Login</Button>
+                        </a>
+                    </Link>
+                    <Link href="/">
+                        <a>
+                            <Button>Crear cuenta</Button>
+                        </a>
+                    </Link>
                 </div>
             </ContainerHeader>
         </header>

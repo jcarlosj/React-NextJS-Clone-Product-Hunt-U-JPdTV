@@ -32,6 +32,9 @@ import Button from '../ui/Button';
 
 /** Define Component */
 const Header = () => {
+
+    const userExists = false;
+
     return( 
         <header
             css={ css `
@@ -54,22 +57,32 @@ const Header = () => {
                         align-items: center;
                     `}
                 >
-                    <p>Hola: Eva Sofía</p>
-                    <Button 
-                        bgColor="true"
-                    >Cerrar sesión</Button>
-                    <Link href="/">
-                        <a>
-                            <Button 
-                                bgColor="true"
-                            >Login</Button>
-                        </a>
-                    </Link>
-                    <Link href="/">
-                        <a>
-                            <Button>Crear cuenta</Button>
-                        </a>
-                    </Link>
+                    { userExists
+                        ?   <>
+                                <p
+                                    css={ css `
+                                        margin-right: 2rem;
+                                    `}
+                                >Hola: Eva Sofía</p>
+                                <Button 
+                                    bgColor="true"
+                                >Cerrar sesión</Button>
+                            </>
+                        :   <>
+                                <Link href="/">
+                                    <a>
+                                        <Button 
+                                            bgColor="true"
+                                        >Login</Button>
+                                    </a>
+                                </Link>
+                                <Link href="/">
+                                    <a>
+                                        <Button>Crear cuenta</Button>
+                                    </a>
+                                </Link>
+                            </>
+                    }
                 </div>
             </ContainerHeader>
         </header>

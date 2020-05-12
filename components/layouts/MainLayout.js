@@ -13,6 +13,7 @@ const MainLayout = props => {
                     :root {
                         --gray-one: #3D3D3D;
                         --gray-two: #6F6F6F;
+                        --gray-three: #E1E1E1;
                         --orange: #DA552F;
                     }
 

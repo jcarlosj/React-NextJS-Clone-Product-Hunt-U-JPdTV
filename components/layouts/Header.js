@@ -18,8 +18,8 @@ const Header = () => {
                 <div>
                     <p>Hola: Eva Sofía</p>
                     <button type="button">Cerrar sesión</button>
-                    <Link href="/">Login</Link>
-                    <Link href="/">Crear cuenta</Link>
+                    <Link href="/"><a>Login</a></Link>
+                    <Link href="/"><a>Crear cuenta</a></Link>
                 </div>
             </div>
         </header>

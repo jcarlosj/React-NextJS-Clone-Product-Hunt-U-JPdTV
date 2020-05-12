@@ -5,9 +5,9 @@ import Link from 'next/link';
 const Navigation = () => {
     return( 
         <nav>
-            <Link href="/">Inicio</Link>
-            <Link href="/">Populares</Link>
-            <Link href="/">Nuevo Producto</Link>
+            <Link href="/"><a>Inicio</a></Link>
+            <Link href="/"><a>Populares</a></Link>
+            <Link href="/"><a>Nuevo Producto</a></Link>
         </nav>
     );
 }

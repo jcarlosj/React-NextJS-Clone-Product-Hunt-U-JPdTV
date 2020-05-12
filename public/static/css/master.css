@@ -1,0 +1,12 @@
+.product-list {
+    background-color: #F3F3F3;
+}
+.container {
+    margin: 0;
+    max-width: 1200px;
+    padding: 5rem 0;
+    width: 95%;
+}
+.bg-white {
+    background-color: #FFFFFF;
+}

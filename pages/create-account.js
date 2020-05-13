@@ -1,22 +1,56 @@
 import React from 'react';
-import styled from '@emotion/styled';                       // Dependency
-import MainLayout from '../components/layouts/MainLayout';  // Component
 
-/** Define Style Components */
-const Heading = styled .h1 `
-    background-color: orange;
-    color: white;
-    margin: 0;
-    padding: .5rem 1rem;
-    text-align: center;
-`;
+import { css } from '@emotion/core';
+
+/** Components */
+import MainLayout from '../components/layouts/MainLayout';  
+
+/** Style Components */
+import { Form, Field, Button } from '../components/ui/Form';
 
 const CreateAccount = () => {
     return (
         <MainLayout>
-            <Heading>
-                Crear Cuenta
-            </Heading>
+            <h1
+                css={ css `
+                    text-align: center;
+                    margin-top: 5rem; 
+                `}
+            >Crear Cuenta</h1>
+            <Form>
+                <Field>
+                    <label htmlFor="name">Nombre</label>
+                    <input 
+                        type="text"
+                        id="name"
+                        placeholder="Nombre de pila"
+                        name="name"
+                    />
+                </Field>
+                <Field>
+                    <label htmlFor="email">Email</label>
+                    <input 
+                        type="email"
+                        id="email"
+                        placeholder="Correo Electrónico"
+                        name="email"
+                    />
+                </Field>
+                <Field>
+                    <label htmlFor="name">Contraseña</label>
+                    <input 
+                        type="password"
+                        id="password"
+                        placeholder="Una clave de acceso"
+                        name="password"
+                    />
+                </Field>
+                <Field>
+                    <Button 
+                        type="button"
+                    >Crear Cuenta</Button>
+                </Field>
+            </Form>
         </MainLayout>
     )
 }

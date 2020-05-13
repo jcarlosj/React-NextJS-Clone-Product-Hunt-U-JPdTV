@@ -74,12 +74,12 @@ const Header = () => {
                                 >Cerrar sesión</Button>
                             </>
                         :   <>
-                                <Link href="/">
+                                <Link href="/login">
                                     <Button 
                                         bgColor="true"
                                     >Login</Button>
                                 </Link>
-                                <Link href="/">
+                                <Link href="/create-account">
                                     <Button>Crear cuenta</Button>
                                 </Link>
                             </>

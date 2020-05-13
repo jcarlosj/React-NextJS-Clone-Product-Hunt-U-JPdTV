@@ -11,14 +11,14 @@ const Heading = styled .h1 `
     text-align: center;
 `;
 
-const Us = () => {
+const Popular = () => {
     return (
         <MainLayout>
             <Heading>
-                Nosotros
+                Populares
             </Heading>
         </MainLayout>
     )
 }
 
-export default Us;
+export default Popular;

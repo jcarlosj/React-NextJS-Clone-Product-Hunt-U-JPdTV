@@ -23,8 +23,8 @@ const Navigation = () => {
     return( 
         <Nav>
             <Link href="/"><a>Inicio</a></Link>
-            <Link href="/"><a>Populares</a></Link>
-            <Link href="/"><a>Nuevo Producto</a></Link>
+            <Link href="/popular"><a>Populares</a></Link>
+            <Link href="/new-product"><a>Nuevo Producto</a></Link>
         </Nav>
     );
 }

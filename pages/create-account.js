@@ -32,7 +32,9 @@ const CreateAccount = () => {
             STATE,                  // State inicial para el componente
             validateCreateAccount,  // Reglas de validación para el componente
             createAccount           // Funcion que se ejecutará si la validación es exitosa
-        );
+        ),
+        /** Destructuring del State de datos del formulario */
+        { name, email, password } = dataForm;
 
     function createAccount() {
         console .log( `Crea cuenta` );
@@ -46,7 +48,10 @@ const CreateAccount = () => {
                     margin-top: 5rem; 
                 `}
             >Crear Cuenta</h1>
-            <Form>
+            <Form
+                onSubmit={ handleSubmit }
+                noValidate
+            >
                 <Field>
                     <label htmlFor="name">Nombre</label>
                     <input 
@@ -54,6 +59,8 @@ const CreateAccount = () => {
                         id="name"
                         placeholder="Nombre de pila"
                         name="name"
+                        value={ name }
+                        onChange={ handleChange }
                     />
                 </Field>
                 <Field>
@@ -63,6 +70,8 @@ const CreateAccount = () => {
                         id="email"
                         placeholder="Correo Electrónico"
                         name="email"
+                        value={ email }
+                        onChange={ handleChange }
                     />
                 </Field>
                 <Field>
@@ -72,11 +81,13 @@ const CreateAccount = () => {
                         id="password"
                         placeholder="Una clave de acceso"
                         name="password"
+                        value={ password }
+                        onChange={ handleChange }
                     />
                 </Field>
                 <Field>
                     <Button 
-                        type="button"
+                        type="submit"
                     >Crear Cuenta</Button>
                 </Field>
             </Form>

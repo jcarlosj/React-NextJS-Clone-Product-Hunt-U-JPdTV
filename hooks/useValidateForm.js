@@ -22,7 +22,7 @@ const useValidateForm = ( initialState, validate, fn ) => {
             setSubmit( false );
         }
 
-    }, [] );
+    }, [ errors ] );
 
     /** Registra en el State los cambios ingresados en los campos del formulario */
     const handleChange = event => {

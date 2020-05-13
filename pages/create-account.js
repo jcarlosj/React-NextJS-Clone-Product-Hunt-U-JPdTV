@@ -6,7 +6,7 @@ import { css } from '@emotion/core';
 import MainLayout from '../components/layouts/MainLayout';  
 
 /** Style Components */
-import { Form, Field, Button } from '../components/ui/Form';
+import { Form, Field, Button, Error } from '../components/ui/Form';
 
 /** Hooks */
 import useValidateForm from '../hooks/useValidateForm';
@@ -63,7 +63,7 @@ const CreateAccount = () => {
                         onChange={ handleChange }
                     />
                 </Field>
-                { errors .name && <small>{ errors .name }</small>}
+                { errors .name && <Error>{ errors .name }</Error>}
                 <Field>
                     <label htmlFor="email">Email</label>
                     <input 
@@ -75,7 +75,7 @@ const CreateAccount = () => {
                         onChange={ handleChange }
                     />
                 </Field>
-                { errors .email && <small>{ errors .email }</small>}
+                { errors .email && <Error>{ errors .email }</Error>}
                 <Field>
                     <label htmlFor="name">Contraseña</label>
                     <input 
@@ -87,7 +87,7 @@ const CreateAccount = () => {
                         onChange={ handleChange }
                     />
                 </Field>
-                { errors .password && <small>{ errors .password }</small>}
+                { errors .password && <Error>{ errors .password }</Error>}
                 <Field>
                     <Button 
                         type="submit"

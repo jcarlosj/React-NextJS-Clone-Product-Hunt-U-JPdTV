@@ -15,6 +15,7 @@ const MainLayout = props => {
                         --gray-two: #6F6F6F;
                         --gray-three: #E1E1E1;
                         --orange: #DA552F;
+                        --bgError: #FB5454;
                     }
 
                     html {

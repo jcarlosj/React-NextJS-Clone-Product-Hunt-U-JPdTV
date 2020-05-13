@@ -21,7 +21,7 @@ export const Form = styled .form `
 export const Field = styled .div `
     align-items: center;
     display: flex;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
 `;
 
 export const Button = styled .button `
@@ -38,4 +38,15 @@ export const Button = styled .button `
     &:hover {
         cursor: pointer;
     }
+`;
+
+export const Error = styled .p `
+    background-color: var( --bgError );
+    color: white;
+    display: block;
+    font-family: 'PT Sans',sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: .3rem 0 0 150px;
+    padding: .5rem 1.6rem;
 `;

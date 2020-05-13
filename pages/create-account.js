@@ -26,8 +26,8 @@ const CreateAccount = () => {
 
     const /** Implementa Hook de Validación */
         {
-            dataForm, errors, submit,       // States definidos en el Hook
-            handleChange, handleSubmit      // Funciones definidas en el Hook
+            dataForm, errors,       // States definidos en el Hook
+            handleChange, handleSubmit, handleBlur      // Funciones definidas en el Hook
         } = useValidateForm( 
             STATE,                  // State inicial para el componente
             validateCreateAccount,  // Reglas de validación para el componente
@@ -61,6 +61,7 @@ const CreateAccount = () => {
                         name="name"
                         value={ name }
                         onChange={ handleChange }
+                        onBlur={ handleBlur }
                     />
                 </Field>
                 { errors .name && <Error>{ errors .name }</Error>}
@@ -73,6 +74,7 @@ const CreateAccount = () => {
                         name="email"
                         value={ email }
                         onChange={ handleChange }
+                        onBlur={ handleBlur }
                     />
                 </Field>
                 { errors .email && <Error>{ errors .email }</Error>}
@@ -85,6 +87,7 @@ const CreateAccount = () => {
                         name="password"
                         value={ password }
                         onChange={ handleChange }
+                        onBlur={ handleBlur }
                     />
                 </Field>
                 { errors .password && <Error>{ errors .password }</Error>}

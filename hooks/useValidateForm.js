@@ -24,6 +24,12 @@ const useValidateForm = ( initialState, validate, fn ) => {
 
     }, [ errors ] );
 
+    /**  */
+    const handleBlur = () => {
+        const errorsValidate = validate( dataForm );
+        setErrors( errorsValidate );
+    }
+
     /** Registra en el State los cambios ingresados en los campos del formulario */
     const handleChange = event => {
         setDataForm({
@@ -44,9 +50,9 @@ const useValidateForm = ( initialState, validate, fn ) => {
     return {
         dataForm,       //  State
         errors,         //  State
-        submit,         //  State
         handleChange,   //  Funcionalidad
-        handleSubmit    //  Funcionalidad
+        handleSubmit,   //  Funcionalidad
+        handleBlur      //  Funcionalidad
     };
 }
 

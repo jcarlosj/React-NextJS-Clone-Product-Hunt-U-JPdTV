@@ -8,7 +8,36 @@ import MainLayout from '../components/layouts/MainLayout';
 /** Style Components */
 import { Form, Field, Button } from '../components/ui/Form';
 
+/** Hooks */
+import useValidateForm from '../hooks/useValidateForm';
+
+/** Reglas de Validación */
+import validateCreateAccount from '../validations/create-account'
+
+/** Define estructura de datos del componente */
+const STATE = {
+    name: '',
+    email: '',
+    password: ''
+};
+
+/** Component */
 const CreateAccount = () => {
+
+    const /** Implementa Hook de Validación */
+        {
+            dataForm, errors, submit,       // States definidos en el Hook
+            handleChange, handleSubmit      // Funciones definidas en el Hook
+        } = useValidateForm( 
+            STATE,                  // State inicial para el componente
+            validateCreateAccount,  // Reglas de validación para el componente
+            createAccount           // Funcion que se ejecutará si la validación es exitosa
+        );
+
+    function createAccount() {
+        console .log( `Crea cuenta` );
+    }
+
     return (
         <MainLayout>
             <h1

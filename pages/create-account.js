@@ -63,6 +63,7 @@ const CreateAccount = () => {
                         onChange={ handleChange }
                     />
                 </Field>
+                { errors .name && <small>{ errors .name }</small>}
                 <Field>
                     <label htmlFor="email">Email</label>
                     <input 
@@ -74,6 +75,7 @@ const CreateAccount = () => {
                         onChange={ handleChange }
                     />
                 </Field>
+                { errors .email && <small>{ errors .email }</small>}
                 <Field>
                     <label htmlFor="name">Contraseña</label>
                     <input 
@@ -85,6 +87,7 @@ const CreateAccount = () => {
                         onChange={ handleChange }
                     />
                 </Field>
+                { errors .password && <small>{ errors .password }</small>}
                 <Field>
                     <Button 
                         type="submit"

@@ -14,6 +14,9 @@ import useValidateForm from '../hooks/useValidateForm';
 /** Reglas de Validación */
 import validateCreateAccount from '../validations/create-account'
 
+/** Firebase */
+import firebase from '../firebase';
+
 /** Define estructura de datos del componente */
 const STATE = {
     name: '',
@@ -31,13 +34,23 @@ const CreateAccount = () => {
         } = useValidateForm( 
             STATE,                  // State inicial para el componente
             validateCreateAccount,  // Reglas de validación para el componente
-            createAccount           // Funcion que se ejecutará si la validación es exitosa
+            createUserAccount       // Funcion que se ejecutará si la validación es exitosa
         ),
         /** Destructuring del State de datos del formulario */
         { name, email, password } = dataForm;
 
-    function createAccount() {
-        console .log( `Crea cuenta` );
+    /** Create user account */
+    async  function createUserAccount() {
+
+        try {
+            /** Register new account in firebase */
+            const user = await firebase .createUser( name, email, password );    
+            console .log( 'createAccount', user );
+
+        } catch ( error ) {
+            console .error( error .message );
+        }
+
     }
 
     return (

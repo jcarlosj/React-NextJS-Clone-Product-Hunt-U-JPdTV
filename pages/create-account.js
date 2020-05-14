@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Router from 'next/router';
 
 import { css } from '@emotion/core';
 
@@ -27,7 +28,8 @@ const STATE = {
 /** Component */
 const CreateAccount = () => {
 
-    const /** Implementa Hook de Validación */
+    const 
+        /** Implementa Hook de Validación */
         {
             dataForm, errors,       // States definidos en el Hook
             handleChange, handleSubmit, handleBlur      // Funciones definidas en el Hook
@@ -36,6 +38,8 @@ const CreateAccount = () => {
             validateCreateAccount,  // Reglas de validación para el componente
             createUserAccount       // Funcion que se ejecutará si la validación es exitosa
         ),
+        /** Define state to handle errors */
+        [ error, setError ] = useState( false ),
         /** Destructuring del State de datos del formulario */
         { name, email, password } = dataForm;
 
@@ -46,9 +50,11 @@ const CreateAccount = () => {
             /** Register new account in firebase */
             const user = await firebase .createUser( name, email, password );    
             console .log( 'createAccount', user );
+            Router .push( '/' );         // Redirecionamos usando el Router de Next
 
         } catch ( error ) {
             console .error( error .message );
+            setError( error .message );
         }
 
     }
@@ -65,6 +71,10 @@ const CreateAccount = () => {
                 onSubmit={ handleSubmit }
                 noValidate
             >
+                { error 
+                    ?   <Error>{ error }</Error>
+                    :   null
+                } 
                 <Field>
                     <label htmlFor="name">Nombre</label>
                     <input 
@@ -103,7 +113,7 @@ const CreateAccount = () => {
                         onBlur={ handleBlur }
                     />
                 </Field>
-                { errors .password && <Error>{ errors .password }</Error>}
+                { errors .password && <Error>{ errors .password }</Error>}  
                 <Field>
                     <Button 
                         type="submit"

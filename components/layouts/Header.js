@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
+
+/** Dependencies */
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
+
+/** Context */
+import { FirebaseContext } from '../../firebase';
 
 /** Define Style Components */
 const 
@@ -33,7 +38,8 @@ import Button from '../ui/Button';
 /** Define Component */
 const Header = () => {
 
-    const userExists = false;
+    const /** Destructuring properties 'FirebaseContext' */
+        { user, firebase } = useContext( FirebaseContext );
 
     return( 
         <header
@@ -62,15 +68,16 @@ const Header = () => {
                         align-items: center;
                     `}
                 >
-                    { userExists
+                    { user
                         ?   <>
                                 <p
                                     css={ css `
                                         margin-right: 2rem;
                                     `}
-                                >Hola: Eva Sofía</p>
+                                >Hola: { user .displayName }</p>
                                 <Button 
                                     bgColor="true"
+                                    onClick={ () => firebase .signOutUser() }
                                 >Cerrar sesión</Button>
                             </>
                         :   <>

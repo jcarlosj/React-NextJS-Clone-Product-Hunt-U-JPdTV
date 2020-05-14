@@ -20,7 +20,8 @@ const AppState = props => {
     return (
         <FirebaseContext .Provider
             value={{
-                firebase
+                user,           // State: Estado de autenticación de usuario disponible para toda la App
+                firebase        // Funcionalidades de Firebase disponibles para toda la App
             }}
         >
             <Component { ...pageProps } />

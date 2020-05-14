@@ -43,8 +43,19 @@ const LogIn = () => {
         { email, password } = dataForm;
 
     /** Login user */
-    async  function loginUser() {   
-        console .log( `Inicia la sesión` );
+    async function loginUser() {   
+    
+        try {
+            /** Login on firebase */
+            const user = await firebase .logInUser( email, password );
+            console .log( 'loginUser', user );
+            Router .push( '/' );         // Redirecionamos usando el Router de Next
+
+        } catch ( error ) {
+            console .error( error .message );
+            setError( error .message );
+        }
+
     }
 
     return (

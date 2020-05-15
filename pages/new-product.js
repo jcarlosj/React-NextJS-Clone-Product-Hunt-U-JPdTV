@@ -13,7 +13,7 @@ import { Form, Field, Button, Error } from '../components/ui/Form';
 import useValidateForm from '../hooks/useValidateForm';
 
 /** Reglas de Validación */
-import validateCreateAccount from '../validations/create-account'
+import validateNewProduct from '../validations/new-product';
 
 /** Firebase */
 import firebase from '../firebase';
@@ -39,7 +39,7 @@ const NewProduct = () => {
             handleChange, handleSubmit, handleBlur      // Funciones definidas en el Hook
         } = useValidateForm( 
             STATE,                  // State inicial para el componente
-            validateCreateAccount,  // Reglas de validación para el componente
+            validateNewProduct,     // Reglas de validación para el componente
             createUserAccount       // Funcion que se ejecutará si la validación es exitosa
         ),
         /** Define state to handle errors */
@@ -103,7 +103,7 @@ const NewProduct = () => {
                             id="companyName"
                             placeholder="Nombre de la empresa"
                             name="companyName"
-                            value={ name }
+                            value={ companyName }
                             onChange={ handleChange }
                             onBlur={ handleBlur }
                         />
@@ -147,7 +147,7 @@ const NewProduct = () => {
                             type="file"
                             id="productImage"
                             name="productImage"
-                            value={ name }
+                            value={ productImage }
                             onChange={ handleChange }
                             onBlur={ handleBlur }
                         />
@@ -161,7 +161,7 @@ const NewProduct = () => {
                             id="productUrl"
                             placeholder="URL del producto"
                             name="productUrl"
-                            value={ name }
+                            value={ productUrl }
                             onChange={ handleChange }
                             onBlur={ handleBlur }
                         />

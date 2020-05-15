@@ -1,7 +1,9 @@
 import React, { useState, useContext } from 'react';
 import Router, { useRouter } from 'next/router';
 
+/** Dependencies */
 import { css } from '@emotion/core';
+import FileUploader from 'react-firebase-file-uploader';
 
 /** Components */
 import MainLayout from '../components/layouts/MainLayout';  
@@ -24,7 +26,7 @@ const STATE = {
     companyName: '',
     briefCompanyDescription: '',
     productName: '',
-    //productImage: '',
+    productImageUrl: '',
     productUrl: '',
     productDescription: ''
 };
@@ -35,7 +37,8 @@ const NewProduct = () => {
     const 
         /** Implementa Hook de Validación */
         {
-            dataForm, errors,       // States definidos en el Hook
+            dataForm, errors,                           // States definidos en el Hook
+            setDataForm,                                // Funciones para modificar el State
             handleChange, handleSubmit, handleBlur      // Funciones definidas en el Hook
         } = useValidateForm( 
             STATE,                  // State inicial para el componente
@@ -45,17 +48,24 @@ const NewProduct = () => {
         /** Define state to handle errors */
         [ error, setError ] = useState( false ),
         /** Destructuring del State de datos del formulario */
-        { name, companyName, briefCompanyDescription, productName, productImage, productUrl, productDescription } = dataForm,
+        { name, companyName, briefCompanyDescription, productName, productImageUrl, productUrl, productDescription } = dataForm,
         /** Destructuring properties 'FirebaseContext' */
         { user, firebase } = useContext( FirebaseContext ),
         /** Hook del Router de Next */
-        router = useRouter();
+        router = useRouter(),
+        /** Define States for 'react-firebase-file-uploader' */
+        [ image, setImage ] = useState({
+            imageName: '',
+            imageUrl: '',
+            isUploading: false,
+            uploadProgress: 0
+        });
 
     /** Create user account */
     async  function createProduct() {
 
         /** Valida si el usuario No esta autenticadoen Firebase */
-        if( user ) {
+        if( ! user ) {
             return router .push( '/login' );        // Redirecciona usando el router de Next
         }
 
@@ -65,7 +75,7 @@ const NewProduct = () => {
             companyName,
             briefCompanyDescription,
             productName,
-            //productImage,
+            productImageUrl,
             productUrl,
             productDescription,
             votes: 0,
@@ -75,7 +85,52 @@ const NewProduct = () => {
 
         /** Inserta nuevo producto a la base de datos de Firebase */
         firebase .db .collection( 'products' ) .add( newProduct );
+
+        /** Redirecciona al Home */
+        router .push( '/' );
     }
+
+    /** Funciones de la dependencia 'react-firebase-file-uploader' */
+    const handleUploadStart = () => setImage({
+        isUploading: true,
+        uploadProgress: 0
+    });
+ 
+    const handleProgress = progress => setImage({
+        uploadProgress: progress
+    });
+ 
+    const handleUploadError = error => {
+        setImage({
+            isUploading: error
+            // Todo: handle error
+        });
+        console.error(error);
+    };
+ 
+    const handleUploadSuccess = async filename => {
+        const downloadURL = await firebase
+            .storage
+            .ref( "images/products" )
+            .child( filename )
+            .getDownloadURL()
+            .then( url => {
+                console .log( 'imageURL', url );
+
+                /** Actualiza el State del Formulario */
+                setDataForm({
+                    ...dataForm,
+                    productImageUrl: url
+                });
+            } );
+    
+        setImage({
+            imageName: filename,
+            imageUrl: downloadURL,
+            uploadProgress: 100,
+            isUploading: false
+        });
+    };
 
     return (
         <MainLayout>
@@ -155,18 +210,22 @@ const NewProduct = () => {
                     </Field>
                     { errors .productName && <Error>{ errors .productName }</Error> }
 
-                    {/* <Field>
-                        <label htmlFor="productImage">Imagen</label>
-                        <input 
-                            type="file"
-                            id="productImage"
-                            name="productImage"
-                            value={ productImage }
-                            onChange={ handleChange }
-                            onBlur={ handleBlur }
+                    <Field>
+                        <label htmlFor="productImageUrl">Imagen</label>
+                        <FileUploader
+                            id="productImageUrl"
+                            name="productImageUrl"
+                            /** Metodos de la dependencia */
+                            accept="image/*"
+                            randomizeFilename
+                            storageRef={ firebase .storage .ref( "images/products" )}
+                            onUploadStart={ handleUploadStart }
+                            onUploadError={ handleUploadError }
+                            onUploadSuccess={ handleUploadSuccess }
+                            onProgress={ handleProgress }
                         />
                     </Field>
-                    { errors .productImage && <Error>{ errors .productImage }</Error> } */}
+                    { errors .productImageUrl && <Error>{ errors .productImageUrl }</Error> }
 
                     <Field>
                         <label htmlFor="productUrl">URL</label>

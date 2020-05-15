@@ -50,6 +50,7 @@ const useValidateForm = ( initialState, validate, fn ) => {
     return {
         dataForm,       //  State
         errors,         //  State
+        setDataForm,    //  setState
         handleChange,   //  Funcionalidad
         handleSubmit,   //  Funcionalidad
         handleBlur      //  Funcionalidad

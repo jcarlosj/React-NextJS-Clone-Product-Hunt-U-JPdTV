@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import Router from 'next/router';
+import React, { useState, useContext } from 'react';
+import Router, { useRouter } from 'next/router';
 
 import { css } from '@emotion/core';
 
@@ -16,7 +16,7 @@ import useValidateForm from '../hooks/useValidateForm';
 import validateNewProduct from '../validations/new-product';
 
 /** Firebase */
-import firebase from '../firebase';
+import { FirebaseContext } from '../firebase';
 
 /** Define estructura de datos del componente */
 const STATE = {
@@ -24,7 +24,7 @@ const STATE = {
     companyName: '',
     briefCompanyDescription: '',
     productName: '',
-    productImage: '',
+    //productImage: '',
     productUrl: '',
     productDescription: ''
 };
@@ -40,27 +40,41 @@ const NewProduct = () => {
         } = useValidateForm( 
             STATE,                  // State inicial para el componente
             validateNewProduct,     // Reglas de validación para el componente
-            createUserAccount       // Funcion que se ejecutará si la validación es exitosa
+            createProduct           // Funcion que se ejecutará si la validación es exitosa
         ),
         /** Define state to handle errors */
         [ error, setError ] = useState( false ),
         /** Destructuring del State de datos del formulario */
-        { name, companyName, briefCompanyDescription, productName, productImage, productUrl, productDescription } = dataForm;
+        { name, companyName, briefCompanyDescription, productName, productImage, productUrl, productDescription } = dataForm,
+        /** Destructuring properties 'FirebaseContext' */
+        { user, firebase } = useContext( FirebaseContext ),
+        /** Hook del Router de Next */
+        router = useRouter();
 
     /** Create user account */
-    async  function createUserAccount() {
+    async  function createProduct() {
 
-        try {
-            /** Register new account in firebase */
-            const user = await firebase .createUser( name, email, password );    
-            console .log( 'createAccount', user );
-            Router .push( '/' );         // Redirecionamos usando el Router de Next
-
-        } catch ( error ) {
-            console .error( error .message );
-            setError( error .message );
+        /** Valida si el usuario No esta autenticadoen Firebase */
+        if( user ) {
+            return router .push( '/login' );        // Redirecciona usando el router de Next
         }
 
+        /** Crea el nuevo producto */
+        const newProduct = {
+            name,
+            companyName,
+            briefCompanyDescription,
+            productName,
+            //productImage,
+            productUrl,
+            productDescription,
+            votes: 0,
+            comments: [],
+            creationDate: Date .now()
+        };
+
+        /** Inserta nuevo producto a la base de datos de Firebase */
+        firebase .db .collection( 'products' ) .add( newProduct );
     }
 
     return (
@@ -141,7 +155,7 @@ const NewProduct = () => {
                     </Field>
                     { errors .productName && <Error>{ errors .productName }</Error> }
 
-                    <Field>
+                    {/* <Field>
                         <label htmlFor="productImage">Imagen</label>
                         <input 
                             type="file"
@@ -152,7 +166,7 @@ const NewProduct = () => {
                             onBlur={ handleBlur }
                         />
                     </Field>
-                    { errors .productImage && <Error>{ errors .productImage }</Error> }
+                    { errors .productImage && <Error>{ errors .productImage }</Error> } */}
 
                     <Field>
                         <label htmlFor="productUrl">URL</label>

@@ -6,9 +6,78 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import { es } from 'date-fns/locale';
 
 /** Define Style Component */
-const Image = styled .img `
-    width: 200px;
-`;
+const
+    List = styled .li `
+        align-items: center;
+        border-button: 1px solid #E1E1E1;
+        display: flex;
+        justify-content: space-between;
+        padding: 4rem;
+    `,
+    Title = styled .a `
+        font-size: 2rem;
+        font-weight: bold;
+        margin: 0;
+        
+        :hover {
+            cursor: pointer;
+        }
+    `,
+    Product = styled .section `
+        column-gap: 2rem;
+        display: grid;
+        flex: 0 1 600px;    // Se hace por que el padre posee es un display: flex
+        grid-template-columns: 1fr 3fr;
+    `,
+    Descripcion = styled .p `
+        color: #888;
+        font-size: 1.6rem;
+        margin: 0;
+    `,
+    Comments = styled .div `
+        align-items: center;
+        display: flex;
+        margin-top: 2rem;
+
+        div {
+            align-items: center;
+            border: 1px solid #E1E1E1;
+            display: flex;
+            margin-right: 2rem;
+            padding: .3rem 1rem;
+
+            img {
+                margin-right: 2rem;
+                width: 2rem;
+            }
+            p {
+                font-size: 1.6rem;
+                margin-right: 1rem;
+                font-weight: 700;
+                &:last-of-type {
+                    margin: 0;
+                }
+            }
+        }
+    `,
+    Votes = styled .section `
+        border: 1px solid #E1E1E1;
+        flex: 0 0 auto;
+        padding: 1rem 3rem;
+        text-align: center; 
+
+        div {
+            font-size: 2rem;
+        }
+        p {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+    `,
+    Image = styled .img `
+        width: 200px;
+    `;
 
 const ProductDetail = ({ product }) => {
 
@@ -16,26 +85,31 @@ const ProductDetail = ({ product }) => {
         { id, name, companyName, productName, productUrl, productImageUrl, productDescription, comments, votes, creationDate } = product;
 
     return (
-        <li>
-            <section>
-                <section>
+        <List>
+
+            <Product>
+                <div>
                     <Image src={ productImageUrl } />
-                </section>
-            </section>
-            <section>
-                <h2>{ productName }</h2>
-                <p>{ productDescription }</p>
+                </div>
                 <section>
-                    <img src="./static/images/comment.png" />
-                    <p>{ comments .lenght } Comentarios</p>
+                    <Title>{ productName }</Title>
+                    <p>{ productDescription }</p>
+                    <Comments>
+                        <div>
+                            <img src="./static/images/comment.png" />
+                            <Descripcion>{ comments .lenght } Comentarios</Descripcion>
+                        </div>
+                    </Comments>
                 </section>
                 <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), { locale: es } ) }</p>
-            </section>
-            <section>
+            </Product>
+
+            <Votes>
                 <div> &#9650; </div>
                 <p>{ votes }</p>
-            </section>
-        </li>
+            </Votes>
+            
+        </List>
     );
 }
 

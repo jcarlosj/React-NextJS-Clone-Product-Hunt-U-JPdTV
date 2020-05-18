@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 
 /** Dependencies */
 import styled from '@emotion/styled';
@@ -18,7 +19,7 @@ const
         font-size: 2rem;
         font-weight: bold;
         margin: 0;
-        
+
         :hover {
             cursor: pointer;
         }
@@ -92,7 +93,11 @@ const ProductDetail = ({ product }) => {
                     <Image src={ productImageUrl } />
                 </div>
                 <section>
-                    <Title>{ productName }</Title>
+                    <Link
+                        href="/products/[id]" as={ `/products/${ id }` }        // Enrutamiento dinámico con Next
+                    >
+                        <Title>{ productName }</Title>
+                    </Link>
                     <p>{ productDescription }</p>
                     <Comments>
                         <div>

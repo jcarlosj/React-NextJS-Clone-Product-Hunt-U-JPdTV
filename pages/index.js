@@ -1,6 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import styled from '@emotion/styled';                       // Dependency
-import MainLayout from '../components/layouts/MainLayout';  // Component
+
+/** Components  */
+import MainLayout from '../components/layouts/MainLayout';
+import ProductDetail from '../components/layouts/ProductDetail';
+
 import { FirebaseContext } from '../firebase';
 
 export default function Home() {
@@ -35,7 +39,21 @@ export default function Home() {
 
     return (
         <MainLayout>
-            <h1>Inicio</h1>
+            <div className="product-list">
+                <div className="container">
+                    <ul className="bg-white">
+                        { ! products 
+                            ?   <p>No hay productos</p>
+                            :   products .map( product => (
+                                    <ProductDetail
+                                        key={ product .id }
+                                        product={ product }
+                                    />
+                                ))
+                        }
+                    </ul>
+                </div>
+            </div>
         </MainLayout>
     )
 }

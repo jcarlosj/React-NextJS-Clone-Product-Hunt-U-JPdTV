@@ -2,6 +2,8 @@ import React from 'react';
 
 /** Dependencies */
 import styled from '@emotion/styled';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { es } from 'date-fns/locale';
 
 /** Define Style Component */
 const Image = styled .img `
@@ -27,6 +29,7 @@ const ProductDetail = ({ product }) => {
                     <img src="./static/images/comment.png" />
                     <p>{ comments .lenght } Comentarios</p>
                 </section>
+                <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), { locale: es } ) }</p>
             </section>
             <section>
                 <div> &#9650; </div>

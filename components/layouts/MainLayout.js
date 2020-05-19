@@ -55,6 +55,17 @@ const MainLayout = props => {
                         text-decoration: none;
                     }
 
+                    img {
+                        max-width: 100%;
+                    }
+
+                    .container {
+                        margin: 0 auto;
+                        max-width: 1200px;
+                        padding: 5rem 0;
+                        width: 95%;
+                    }
+
                 `}
             />
             <Head>

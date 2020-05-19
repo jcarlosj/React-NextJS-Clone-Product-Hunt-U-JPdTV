@@ -13,7 +13,8 @@ import { FirebaseContext } from '../../firebase';
 /** Components */
 import MainLayout from '../../components/layouts/MainLayout';  
 import Error404 from '../../components/layouts/404';
-import { Field, Button } from '../../components/ui/Form';
+import { Field, Button as Btn } from '../../components/ui/Form';
+import Button from '../../components/ui/Button';
 
 /** Define Style Components */
 const 
@@ -95,19 +96,20 @@ const Product = () => {
                                             />
                                         </Field>
                                         <Field>
-                                            <Button 
+                                            <Btn 
                                                 type="button"
-                                            >Agregar comentario</Button>
+                                            >Agregar comentario</Btn>
                                         </Field>
                                     </form>
 
                                     <h2
                                         css={ css `
-                                            margin: 2rem;
+                                            margin-top: 2rem;
                                         ` }
                                     >Comentarios</h2>
                                     { comments
-                                        ?   <ul>
+                                        ?   <p>No hay comentarios</p> 
+                                        :   <ul>
                                                 { comments .map( comment => (
                                                     <li>
                                                         <p>{ comment .message }</p>
@@ -116,11 +118,29 @@ const Product = () => {
                                                 ))}
 
                                             </ul>
-                                        :   <p>No hay comentarios</p> 
                                     }
                                 </section>
                                 <aside>
+                                    <Button
+                                        target="_black"
+                                        bgColor="true"
+                                        href={ productUrl }
+                                    >Visitar Url</Button>
 
+                                    <div 
+                                        css={ css `
+                                            margin-top: 5rem;
+                                        `}
+                                    >
+                                        <p
+                                            css={ css `
+                                                text-align: center;
+                                            `}
+                                        >{ votes } Votos</p>
+                                        <Button
+                                            href="#!"
+                                        >Votar</Button>
+                                    </div>
                                 </aside>
                             </InfoProduct>   
                         </>

@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
+
+import { FirebaseContext } from '../../firebase';
 
 /** Dynamic Component 
  * Construirá un Componente para cada ruta dinámica
 */
 const Product = () => {
 
-    const   /** Obtener el parámetro pasado por la URL */
+    const
+        [ product, setProduct ] = useState({}),
+        { firebase } = useContext( FirebaseContext ),
+    /** Obtener el parámetro pasado por la URL */
         router = useRouter(),
         { query: { id } } = router;     // Destructuring para obtener el ID del producto
 
@@ -16,7 +21,16 @@ const Product = () => {
     useEffect( () => {
         /** Valida que el ID exista */
         if( id ) {
-            console .log( `Ya hay un ID` );
+            /** Get product  */
+            const getProduct = async () => {
+                const /** Query to get product by Id in Firebase */
+                    response = await firebase .db .collection( 'products' ) .doc( id ),
+                    product = await response .get();
+
+                console .log( 'Product ', product .data() );
+                setProduct( product .data() );
+            } 
+            getProduct();
         }
     }, [ id ] );
 

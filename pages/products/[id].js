@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 
+/** Context */
 import { FirebaseContext } from '../../firebase';
+
+/** Components */
+import MainLayout from '../../components/layouts/MainLayout';  
+import Error404 from '../../components/layouts/404';
 
 /** Dynamic Component 
  * Construirá un Componente para cada ruta dinámica
@@ -10,6 +15,7 @@ const Product = () => {
 
     const
         [ product, setProduct ] = useState({}),
+        [ error, setError ] = useState( false ),
         { firebase } = useContext( FirebaseContext ),
     /** Obtener el parámetro pasado por la URL */
         router = useRouter(),
@@ -28,17 +34,30 @@ const Product = () => {
                     product = await response .get();
 
                 console .log( 'Product ', product .data() );
-                setProduct( product .data() );
+
+                /** Valida si el registro existe en Firebase (exists es un método de Firebase) */
+                if( product .exists ) {
+                    setProduct( product .data() );  // Update State
+                    setError( false );              // Update State
+                } else {
+                    setError( true );               // Update State
+                }
+
             } 
             getProduct();
         }
     }, [ id ] );
 
     return (
-        <>
-            <h1>Archivo [id].js</h1>
-            <p>ID: { id }</p>
-        </>
+        <MainLayout>
+            { error 
+                ?   <Error404 />
+                :   <>
+                        <h1>Archivo [id].js</h1>
+                        <p>ID: { id }</p>   
+                    </>
+            }
+        </MainLayout>
     );
 }
 

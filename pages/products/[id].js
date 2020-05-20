@@ -13,6 +13,8 @@ import { FirebaseContext } from '../../firebase';
 /** Components */
 import MainLayout from '../../components/layouts/MainLayout';  
 import Error404 from '../../components/layouts/404';
+
+/** Style Components */
 import { Field, Button as Btn } from '../../components/ui/Form';
 import Button from '../../components/ui/Button';
 
@@ -34,7 +36,7 @@ const Product = () => {
     const
         [ product, setProduct ] = useState({}),
         [ error, setError ] = useState( false ),
-        { firebase } = useContext( FirebaseContext ),
+        { user, firebase } = useContext( FirebaseContext ),
     /** Obtener el parámetro pasado por la URL */
         router = useRouter(),
         { query: { id } } = router,     // Destructuring para obtener el ID del producto
@@ -103,20 +105,24 @@ const Product = () => {
                                                 <img src={ productImageUrl } />
                                                 <p>{ productDescription }</p>
 
-                                                <h2>Agrega tu comentario</h2>
-                                                <form>
-                                                    <Field>
-                                                        <input 
-                                                            type="text"
-                                                            name="message"
-                                                        />
-                                                    </Field>
-                                                    <Field>
-                                                        <Btn 
-                                                            type="button"
-                                                        >Agregar comentario</Btn>
-                                                    </Field>
-                                                </form>
+                                                { user && 
+                                                    <>
+                                                        <h2>Agrega tu comentario</h2>
+                                                        <form>
+                                                            <Field>
+                                                                <input 
+                                                                    type="text"
+                                                                    name="message"
+                                                                />
+                                                            </Field>
+                                                            <Field>
+                                                                <Btn 
+                                                                    type="button"
+                                                                >Agregar comentario</Btn>
+                                                            </Field>
+                                                        </form>
+                                                    </>
+                                                }
 
                                                 <h2
                                                     css={ css `
@@ -137,7 +143,7 @@ const Product = () => {
                                                 }
                                             </section>
                                             <aside>
-                                            <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), { locale: es } ) } por { creator .name }</p>
+                                                <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), { locale: es } ) } por { creator .name }</p>
                                                 <Button
                                                     target="_black"
                                                     bgColor="true"
@@ -154,9 +160,11 @@ const Product = () => {
                                                             text-align: center;
                                                         `}
                                                     >{ votes } Votos</p>
-                                                    <Button
-                                                        href="#!"
-                                                    >Votar</Button>
+                                                    { user && 
+                                                        <Button
+                                                            href="#!"
+                                                        >Votar</Button>
+                                                    }
                                                 </div>
                                             </aside>
                                         </InfoProduct>   

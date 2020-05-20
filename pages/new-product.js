@@ -80,6 +80,7 @@ const NewProduct = () => {
             productUrl,
             productDescription,
             votes: 0,
+            voters: [],
             comments: [],
             creationDate: Date .now(),
             creator: {

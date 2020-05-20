@@ -40,7 +40,7 @@ const Product = () => {
     /** Obtener el parámetro pasado por la URL */
         router = useRouter(),
         { query: { id } } = router,     // Destructuring para obtener el ID del producto
-        { name, companyName, productName, productUrl, productImageUrl, productDescription, comments, votes, creationDate, creator } = product;
+        { name, companyName, productName, productUrl, productImageUrl, productDescription, comments, votes, voters, creationDate, creator } = product;
 
     console .log( 'ID', id );
 
@@ -67,7 +67,7 @@ const Product = () => {
             } 
             getProduct();
         }
-    }, [ id ] );
+    }, [ id, votes ] );
 
     /** */
     const handleOnClickVote = () => {
@@ -76,11 +76,20 @@ const Product = () => {
 
         const totalNewVotes = votes + 1;
 
+        /** Check if a user has already voted */
+        if( voters .includes( user .uid ) ) {
+            console .log( `Este usuario ya ha votado este producto!` );
+            return;
+        }
+
         /** Query to update property 'votes' of product by Id in Firebase */
         firebase .db 
             .collection( 'products' ) 
             .doc( id ) 
-            .update({ votes: totalNewVotes });        
+            .update({ 
+                votes: totalNewVotes,               // Update number of votes
+                voters: [ ...voters, user .uid ]    // Update user ID on list voters
+            });        
 
         /** Update State 'product' */
         setProduct({

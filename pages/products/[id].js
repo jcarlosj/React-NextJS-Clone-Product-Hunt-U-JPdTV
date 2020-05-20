@@ -69,6 +69,26 @@ const Product = () => {
         }
     }, [ id ] );
 
+    /** */
+    const handleOnClickVote = () => {
+        /** Valida NO hay un usuario registrado */
+        if( ! user ) return router .push( '/' );        // Redirecciona usando Next
+
+        const totalNewVotes = votes + 1;
+
+        /** Query to update property 'votes' of product by Id in Firebase */
+        firebase .db 
+            .collection( 'products' ) 
+            .doc( id ) 
+            .update({ votes: totalNewVotes });        
+
+        /** Update State 'product' */
+        setProduct({
+            ...product,
+            votes: totalNewVotes
+        });     
+    }
+
     return (
         <MainLayout>
             <div className="container">
@@ -163,6 +183,7 @@ const Product = () => {
                                                     { user && 
                                                         <Button
                                                             href="#!"
+                                                            onClick={ handleOnClickVote }
                                                         >Votar</Button>
                                                     }
                                                 </div>

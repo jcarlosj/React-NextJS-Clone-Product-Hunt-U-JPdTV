@@ -73,76 +73,85 @@ const Product = () => {
                 { error 
                     ?   <Error404 />
                     :   <>
-                            { ( Object .keys( product ) .length === 0 ) ? 'Cargando...' : '' }
-                            <h1 
-                                css={ css `
-                                    margin-top: 5rem;
-                                    text-align: center;
-                                ` }
-                            >{ companyName }</h1>
-                            <InfoProduct>
-                                <section>
-                                    {/* TODO: Fix Display Date 
-                                        <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), {locale: es} )} </p> */}
-                                    <img src={ productImageUrl } />
-                                    <p>{ productDescription }</p>
-
-                                    <h2>Agrega tu comentario</h2>
-                                    <form>
-                                        <Field>
-                                            <input 
-                                                type="text"
-                                                name="message"
-                                            />
-                                        </Field>
-                                        <Field>
-                                            <Btn 
-                                                type="button"
-                                            >Agregar comentario</Btn>
-                                        </Field>
-                                    </form>
-
-                                    <h2
+                            { ( Object .keys( product ) .length === 0 ) 
+                                ?   <p
                                         css={ css `
-                                            margin-top: 2rem;
+                                            text-align: center;
                                         ` }
-                                    >Comentarios</h2>
-                                    { comments
-                                        ?   <p>No hay comentarios</p> 
-                                        :   <ul>
-                                                { comments .map( comment => (
-                                                    <li>
-                                                        <p>{ comment .message }</p>
-                                                        <p>Escrito por: { comment .userName }</p>
-                                                    </li>
-                                                ))}
-
-                                            </ul>
-                                    }
-                                </section>
-                                <aside>
-                                    <Button
-                                        target="_black"
-                                        bgColor="true"
-                                        href={ productUrl }
-                                    >Visitar Url</Button>
-
-                                    <div 
-                                        css={ css `
-                                            margin-top: 5rem;
-                                        `}
-                                    >
-                                        <p
+                                    >Cargando...</p>
+                                :   <>
+                                        <h1 
                                             css={ css `
+                                                margin-top: 5rem;
                                                 text-align: center;
-                                            `}
-                                        >{ votes } Votos</p>
-                                        <Button
-                                            href="#!"
-                                        >Votar</Button>
-                                    </div>
-                                </aside>
-                            </InfoProduct>   
+                                            ` }
+                                        >{ companyName }</h1>
+                                        <InfoProduct>
+                                            <section>
+                                                {/* TODO: Fix Display Date 
+                                                    <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), {locale: es} )} </p> */}
+                                                <img src={ productImageUrl } />
+                                                <p>{ productDescription }</p>
+
+                                                <h2>Agrega tu comentario</h2>
+                                                <form>
+                                                    <Field>
+                                                        <input 
+                                                            type="text"
+                                                            name="message"
+                                                        />
+                                                    </Field>
+                                                    <Field>
+                                                        <Btn 
+                                                            type="button"
+                                                        >Agregar comentario</Btn>
+                                                    </Field>
+                                                </form>
+
+                                                <h2
+                                                    css={ css `
+                                                        margin-top: 2rem;
+                                                    ` }
+                                                >Comentarios</h2>
+                                                { ( comments .length <= 0 )
+                                                    ?   <p>No hay comentarios</p> 
+                                                    :   <ul>
+                                                            { comments .map( comment => (
+                                                                <li>
+                                                                    <p>{ comment .message }</p>
+                                                                    <p>Escrito por: { comment .userName }</p>
+                                                                </li>
+                                                            ))}
+
+                                                        </ul>
+                                                }
+                                            </section>
+                                            <aside>
+                                                <Button
+                                                    target="_black"
+                                                    bgColor="true"
+                                                    href={ productUrl }
+                                                >Visitar Url</Button>
+
+                                                <div 
+                                                    css={ css `
+                                                        margin-top: 5rem;
+                                                    `}
+                                                >
+                                                    <p
+                                                        css={ css `
+                                                            text-align: center;
+                                                        `}
+                                                    >{ votes } Votos</p>
+                                                    <Button
+                                                        href="#!"
+                                                    >Votar</Button>
+                                                </div>
+                                            </aside>
+                                        </InfoProduct>   
+                                    </>
+                            }
+                            
                         </>
                 }
             </div>

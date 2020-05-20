@@ -34,7 +34,8 @@ const
 const Product = () => {
 
     const
-        [ product, setProduct ] = useState({}),
+        [ product, setProduct ] = useState( {} ),
+        [ comment, setComment ] = useState( {} ),
         [ error, setError ] = useState( false ),
         { user, firebase } = useContext( FirebaseContext ),
     /** Obtener el parámetro pasado por la URL */
@@ -69,7 +70,7 @@ const Product = () => {
         }
     }, [ id, votes ] );
 
-    /** */
+    /** Vote a product */
     const handleOnClickVote = () => {
         /** Valida NO hay un usuario registrado */
         if( ! user ) return router .push( '/' );        // Redirecciona usando Next
@@ -96,6 +97,47 @@ const Product = () => {
             ...product,
             votes: totalNewVotes
         });     
+    }
+
+    /** Handle change field values form */
+    const handleChangeComment = event => {
+        setComment({
+            ...comment,
+            [ event .target .name ]: event .target .value
+        });
+    }
+
+    /** Handle value change of form fields */
+    const handleSubmitComment = event => {
+        event .preventDefault();
+
+        console .log( 'Hola mi pez' );
+
+        /** Valida NO hay un usuario registrado */
+        if( ! user ) return router .push( '/' );        // Redirecciona usando Next
+
+        /**  */
+        comment[ 'uid' ] = user .uid;
+        comment[ 'userName' ] = user .displayName;
+        comment[ 'creationDate' ] = Date .now();
+        
+        const newComments = [ ...comments, comment ];
+
+        /** */
+        firebase .db 
+            .collection( 'products' )
+            .doc( id )
+            .update({
+                comments: newComments
+            });
+        
+
+        /** Update State 'comments' */
+        setProduct({
+            ...product,
+            comments: newComments
+        });
+
     }
 
     return (
@@ -137,16 +179,19 @@ const Product = () => {
                                                 { user && 
                                                     <>
                                                         <h2>Agrega tu comentario</h2>
-                                                        <form>
+                                                        <form
+                                                            onSubmit={ handleSubmitComment }
+                                                        >
                                                             <Field>
                                                                 <input 
                                                                     type="text"
                                                                     name="message"
+                                                                    onChange={ handleChangeComment }
                                                                 />
                                                             </Field>
                                                             <Field>
                                                                 <Btn 
-                                                                    type="button"
+                                                                    type="submit"
                                                                 >Agregar comentario</Btn>
                                                             </Field>
                                                         </form>
@@ -161,8 +206,14 @@ const Product = () => {
                                                 { ( comments .length <= 0 )
                                                     ?   <p>No hay comentarios</p> 
                                                     :   <ul>
-                                                            { comments .map( comment => (
-                                                                <li>
+                                                            { comments .map( ( comment, i ) => (
+                                                                <li
+                                                                    key={ `${ comment .uid }-${ i }` }
+                                                                    css ={ css `
+                                                                        border: 1px solid #E1E1E1;
+                                                                        padding: 2rem;
+                                                                    `}
+                                                                >
                                                                     <p>{ comment .message }</p>
                                                                     <p>Escrito por: { comment .userName }</p>
                                                                 </li>

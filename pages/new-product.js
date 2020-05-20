@@ -80,7 +80,11 @@ const NewProduct = () => {
             productDescription,
             votes: 0,
             comments: [],
-            creationDate: Date .now()
+            creationDate: Date .now(),
+            creator: {
+                id: user .uid,
+                name: user .displayName
+            }
         };
 
         /** Inserta nuevo producto a la base de datos de Firebase */

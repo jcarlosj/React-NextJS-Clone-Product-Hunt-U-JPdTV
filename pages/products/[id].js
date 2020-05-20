@@ -38,7 +38,7 @@ const Product = () => {
     /** Obtener el parámetro pasado por la URL */
         router = useRouter(),
         { query: { id } } = router,     // Destructuring para obtener el ID del producto
-        { name, companyName, productName, productUrl, productImageUrl, productDescription, comments, votes, creationDate } = product;
+        { name, companyName, productName, productUrl, productImageUrl, productDescription, comments, votes, creationDate, creator } = product;
 
     console .log( 'ID', id );
 
@@ -80,16 +80,26 @@ const Product = () => {
                                         ` }
                                     >Cargando...</p>
                                 :   <>
-                                        <h1 
+                                        <hgroup
                                             css={ css `
-                                                margin-top: 5rem;
+                                                margin: 4rem 0;
                                                 text-align: center;
                                             ` }
-                                        >{ companyName }</h1>
+                                        >
+                                            <h1 
+                                                css={ css `
+                                                    margin: 0;
+                                                ` }
+                                            >{ productName }</h1>
+                                            <h2
+                                                css={ css `
+                                                    margin: 0;
+                                                    font-weight: normal;
+                                                ` }
+                                            >{ name } - { companyName }</h2>
+                                        </hgroup>
                                         <InfoProduct>
-                                            <section>
-                                                {/* TODO: Fix Display Date 
-                                                    <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), {locale: es} )} </p> */}
+                                            <section> 
                                                 <img src={ productImageUrl } />
                                                 <p>{ productDescription }</p>
 
@@ -127,12 +137,13 @@ const Product = () => {
                                                 }
                                             </section>
                                             <aside>
+                                            <p>Publicado hace { formatDistanceToNow( new Date( creationDate ), { locale: es } ) } por { creator .name }</p>
                                                 <Button
                                                     target="_black"
                                                     bgColor="true"
                                                     href={ productUrl }
                                                 >Visitar Url</Button>
-
+                                                
                                                 <div 
                                                     css={ css `
                                                         margin-top: 5rem;

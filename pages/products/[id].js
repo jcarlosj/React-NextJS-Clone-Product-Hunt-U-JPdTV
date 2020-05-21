@@ -234,14 +234,14 @@ const Product = () => {
                                                                         padding: 2rem;
                                                                     `}
                                                                 >
-                                                                    <p css={ css `
+                                                                    <div css={ css `
                                                                         font-size: 2rem;
                                                                         margin: 0;
                                                                     `}>
                                                                         { isCreator && 
                                                                             <Creator>Creador</Creator>
                                                                         }<b>Escrito por:</b> { comment .userName }
-                                                                    </p>
+                                                                    </div>
                                                                     <p css={ css `
                                                                         font-size: 2rem;
                                                                         margin: 0;

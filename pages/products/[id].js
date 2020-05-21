@@ -26,6 +26,16 @@ const
             display: grid;
             grid-template-columns: 2fr 1fr;
         }
+    `,
+    Creator = styled .p `
+        border: 1px solid #DA552F;
+        color: #DA552F;
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 1rem;
+        padding: .5rem 2rem;
+        text-align: center;
+        text-transform: uppercase;
     `;
 
 /** Dynamic Component 
@@ -69,6 +79,15 @@ const Product = () => {
             getProduct();
         }
     }, [ id, votes ] );
+
+    /** Identify product creator comment */
+    const isCreator = id => {
+        if( id === creator .id ) {
+            return true;
+        }
+
+        return false;
+    }
 
     /** Vote a product */
     const handleOnClickVote = () => {
@@ -211,11 +230,22 @@ const Product = () => {
                                                                     key={ `${ comment .uid }-${ i }` }
                                                                     css ={ css `
                                                                         border: 1px solid #E1E1E1;
+                                                                        margin: 1.4rem 0;
                                                                         padding: 2rem;
                                                                     `}
                                                                 >
-                                                                    <p>{ comment .message }</p>
-                                                                    <p>Escrito por: { comment .userName }</p>
+                                                                    <p css={ css `
+                                                                        font-size: 2rem;
+                                                                        margin: 0;
+                                                                    `}>
+                                                                        { isCreator && 
+                                                                            <Creator>Creador</Creator>
+                                                                        }<b>Escrito por:</b> { comment .userName }
+                                                                    </p>
+                                                                    <p css={ css `
+                                                                        font-size: 2rem;
+                                                                        margin: 0;
+                                                                    `}>{ comment .message }</p>
                                                                 </li>
                                                             ))}
 

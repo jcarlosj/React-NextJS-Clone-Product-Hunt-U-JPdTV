@@ -1,40 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';                   // Dependency
+import React from 'react';                  
 
 /** Components  */
 import MainLayout from '../components/layouts/MainLayout';
 import ProductDetail from '../components/layouts/ProductDetail';
 
-import { FirebaseContext } from '../firebase';
+/** Hooks */
+import useProducts from '../hooks/useProducts';
 
+/** Component */
 export default function Home() {
 
-    const
-        [ products, setProducts ] = useState( [] ),     // Define State 'products'
-        { firebase } = useContext( FirebaseContext );   // Extract Context
-
-    /** Traking */
-    useEffect( () => {
-        /** Consultar API de Firebase cuando el componente cargue */
-        const getProducts = () => {
-            firebase .db .collection( 'products' ) 
-                         .orderBy( 'creationDate', 'desc' )
-                         .onSnapshot( handleSnapShot );         // Permite acceder a los datos consultados
-        }
-        getProducts();
-    }, [] );
-
-    /** Manejador de Datos Consultados en FireBase */
-    const handleSnapShot = snapshot  => {
-        const products = snapshot .docs .map( document => {
-            return {
-                id: document .id,
-                ...document .data()      // Get data
-            }
-        });
-
-        console .log( 'Products', products );
-        setProducts( products );        // Update State 
-    }
+    /** Destructuring hook data 'use products' */
+    const { products } = useProducts( 'creationDate' );    // Establece la propiedad que establecerá el ordenamiento de nuestra lista de productos
 
     return (
         <MainLayout>

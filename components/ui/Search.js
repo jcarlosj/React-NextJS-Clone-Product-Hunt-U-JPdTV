@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Router from 'next/router';
+
+/** Dependencies */
 import styled from '@emotion/styled';
 import { css } from '@emotion/core';
 
@@ -30,15 +33,37 @@ const
 
 /** Define Component */
 const Search = () => {
+
+    /** Define State */
+    const [ searchTerm, setSearchTerm ] = useState( '' );
+
+    /** Search product */
+    const handleSubmitSearchProduct = event => {
+        event .preventDefault();
+
+        /** Valida que exista un 'String' en el campo */
+        if( searchTerm .trim() === '' ) return;
+
+        console .log( 'Buscando...', searchTerm );
+
+        /** Redirecciona y pasa datos al Page 'Search' */
+        Router .push({
+            pathname: '/search',
+            query: { q: searchTerm }
+        });
+    }
+
     return( 
         <form 
             css={ css `position: relative;` }
+            onSubmit={ handleSubmitSearchProduct }
         >
             <InputText 
                 type="text" 
                 placeholder="Buscar Productos"
+                onChange={ event => setSearchTerm( event .target .value ) }
             />
-            <Button type="button">Buscar</Button>
+            <Button type="submit">Buscar</Button>
         </form>
     );
 }

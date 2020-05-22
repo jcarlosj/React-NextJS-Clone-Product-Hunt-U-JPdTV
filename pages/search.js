@@ -1,4 +1,6 @@
 import React from 'react';
+import { useRouter } from 'next/router';
+
 import styled from '@emotion/styled';                       // Dependency
 import MainLayout from '../components/layouts/MainLayout';  // Component
 
@@ -11,7 +13,12 @@ const Heading = styled .h1 `
     text-align: center;
 `;
 
+/** Component */
 const Search = () => {
+
+    const router = useRouter();
+    console .log( 'Router', router );
+
     return (
         <MainLayout>
             <Heading>

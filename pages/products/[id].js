@@ -46,6 +46,7 @@ const Product = () => {
     const
         [ product, setProduct ] = useState( {} ),
         [ comment, setComment ] = useState( {} ),
+        [ queryDatabase, setQueryDatabase ] = useState( true ),
         [ error, setError ] = useState( false ),
         { user, firebase } = useContext( FirebaseContext ),
     /** Obtener el parámetro pasado por la URL */
@@ -58,7 +59,7 @@ const Product = () => {
     /** Tracking 'id' */
     useEffect( () => {
         /** Valida que el ID exista */
-        if( id ) {
+        if( id && queryDatabase ) {
             /** Get product  */
             const getProduct = async () => {
                 const /** Query to get product by Id in Firebase */
@@ -71,14 +72,16 @@ const Product = () => {
                 if( product .exists ) {
                     setProduct( product .data() );  // Update State
                     setError( false );              // Update State
+                    setQueryDatabase( false );      // Update State
                 } else {
                     setError( true );               // Update State
+                    setQueryDatabase( false );      // Update State
                 }
                 
             } 
             getProduct();
         }
-    }, [ id, votes ] );
+    }, [ id ] );
 
     /** Identify product creator comment */
     const isCreator = id => {
@@ -89,18 +92,50 @@ const Product = () => {
         return false;
     }
 
+    /** Can You Delete Product? */
+    const canYouDeleteProduct = () => {
+        /** Valida NO hay un usuario registrado */
+        if( ! user ) return false;
+
+        /** Verify that the creator of the product is the same authenticated user */
+        if( creator .id === user .uid ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /** Delete Product */
+    const handleDeteleProduct = async () => {
+        
+        /** Valida NO hay un usuario registrado */
+        if( ! user ) return router .push( '/' );                            // Redirecciona usando Next
+
+        /** Verify that the creator of the product is the same authenticated user */
+        if( creator .id !== user .uid ) return router .push( '/' );        // Redirecciona usando Next
+
+        try {
+            await firebase .db .collection( 'products' ) .doc( id ) .delete();
+            router .push( '/' );
+
+        } catch ( error ) {
+            console .log( error );
+        }
+
+    }
+
     /** Vote a product */
     const handleOnClickVote = () => {
         /** Valida NO hay un usuario registrado */
         if( ! user ) return router .push( '/' );        // Redirecciona usando Next
 
-        const totalNewVotes = votes + 1;
-
         /** Check if a user has already voted */
         if( voters .includes( user .uid ) ) {
-            console .log( `Este usuario ya ha votado este producto!` );
+            console .log( `Este usuario con id ${ user .uid } ya ha votado este producto!` );
             return;
         }
+
+        const totalNewVotes = votes + 1;
 
         /** Query to update property 'votes' of product by Id in Firebase */
         firebase .db 
@@ -115,7 +150,9 @@ const Product = () => {
         setProduct({
             ...product,
             votes: totalNewVotes
-        });     
+        });
+        
+        setQueryDatabase( true );      // Update State 'queryDatabase'
     }
 
     /** Handle change field values form */
@@ -135,14 +172,14 @@ const Product = () => {
         /** Valida NO hay un usuario registrado */
         if( ! user ) return router .push( '/' );        // Redirecciona usando Next
 
-        /**  */
+        /** Inserta datos adicionales al comentario */
         comment[ 'uid' ] = user .uid;
         comment[ 'userName' ] = user .displayName;
         comment[ 'creationDate' ] = Date .now();
         
         const newComments = [ ...comments, comment ];
 
-        /** */
+        /** Consulta para actualizar datos en Firebase */
         firebase .db 
             .collection( 'products' )
             .doc( id )
@@ -156,6 +193,8 @@ const Product = () => {
             ...product,
             comments: newComments
         });
+
+        setQueryDatabase( true );      // Update State 'queryDatabase'
 
     }
 
@@ -277,8 +316,19 @@ const Product = () => {
                                                         >Votar</Button>
                                                     }
                                                 </div>
+                                                { canYouDeleteProduct() && 
+                                                    <Button
+                                                        href="#!"
+                                                        css={ css `
+                                                            border: 3px solid red;
+                                                            color: red;    
+                                                            margin: 9rem 0 1rem 0;
+                                                        `}
+                                                        onClick={ handleDeteleProduct }
+                                                    >Eliminar Producto</Button>
+                                                }  
                                             </aside>
-                                        </InfoProduct>   
+                                        </InfoProduct> 
                                     </>
                             }
                             

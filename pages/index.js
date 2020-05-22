@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
-import styled from '@emotion/styled';                       // Dependency
+import React, { useState, useEffect, useContext } from 'react';                   // Dependency
 
 /** Components  */
 import MainLayout from '../components/layouts/MainLayout';

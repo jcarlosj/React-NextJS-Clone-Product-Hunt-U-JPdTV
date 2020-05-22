@@ -1,22 +1,58 @@
-import React from 'react';
-import styled from '@emotion/styled';                       // Dependency
-import MainLayout from '../components/layouts/MainLayout';  // Component
+import React, { useState, useEffect, useContext } from 'react';                   // Dependency
 
-/** Define Style Components */
-const Heading = styled .h1 `
-    background-color: orange;
-    color: white;
-    margin: 0;
-    padding: .5rem 1rem;
-    text-align: center;
-`;
+/** Components  */
+import MainLayout from '../components/layouts/MainLayout';
+import ProductDetail from '../components/layouts/ProductDetail';
+
+import { FirebaseContext } from '../firebase';
 
 const Popular = () => {
+
+    const
+        [ products, setProducts ] = useState( [] ),     // Define State 'products'
+        { firebase } = useContext( FirebaseContext );   // Extract Context
+
+    /** Traking */
+    useEffect( () => {
+        /** Consultar API de Firebase cuando el componente cargue */
+        const getProducts = () => {
+            firebase .db .collection( 'products' ) 
+                         .orderBy( 'votes', 'desc' )
+                         .onSnapshot( handleSnapShot );         // Permite acceder a los datos consultados
+        }
+        getProducts();
+    }, [] );
+
+    /** Manejador de Datos Consultados en FireBase */
+    const handleSnapShot = snapshot  => {
+        const products = snapshot .docs .map( document => {
+            return {
+                id: document .id,
+                ...document .data()      // Get data
+            }
+        });
+
+        console .log( 'Products', products );
+        setProducts( products );        // Update State 
+    }
+
     return (
         <MainLayout>
-            <Heading>
-                Populares
-            </Heading>
+            <div className="product-list">
+                <div className="container">
+                    <ul className="bg-white">
+                        { ! products 
+                            ?   <p>No hay productos</p>
+                            :   products .map( product => (
+                                    <ProductDetail
+                                        key={ product .id }
+                                        product={ product }
+                                    />
+                                ))
+                        }
+                    </ul>
+                </div>
+            </div>
         </MainLayout>
     )
 }
